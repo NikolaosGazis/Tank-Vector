@@ -2,6 +2,8 @@
 import pygame
 import time
 import settings
+from src.world import World
+from player import Player
 
 ### Classes/Functions/Methods ###
 class Game:
@@ -9,7 +11,12 @@ class Game:
         pygame.init()
         
         pygame.display.set_caption("Tank Vector")
-        screen = pygame.display.set_mode((400, 400))
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.clock = pygame.time.Clock()
+        
+        self.world = World()
+        screen_w, screen_h = self.screen.get_size() # Fetch screen's actual resolution.
+        self.player = Player(screen_w // 2, screen_h // 2) # Center.
         
         self.running = True
     
@@ -18,5 +25,18 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
+            
+            # Movement Update #
+            self.player.update()
+            self.world.draw(self.screen)
+            self.player.draw(self.screen)
+            pygame.display.flip()
+            
+            # Draw #
+            self.world.draw(self.screen)
+            self.player.draw(self.screen)
+            pygame.display.flip()
+
+            self.clock.tick(settings.FPS)
         
         pygame.quit()
