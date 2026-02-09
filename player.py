@@ -16,6 +16,25 @@ class Player:
         self.barrel_width = 8
         self.barrel_color = BARREL_COLOR
 
+        # Stats #
+        self.stat_levels = {name: 0 for name in STAT_NAMES}
+        self.stat_points = STAT_STARTING_LEVEL
+        self.level = 1
+        self.xp = 0
+
+        # Player's HP based on the Max Health stat #
+        self.hp = self.get_stat("max_hp")
+
+    def get_stat(self, name):
+        cfg = STATS_CONFIG[name]
+        return cfg["base"] + self.stat_levels[name] * cfg["per_level"]
+
+    def allocate_stat(self, stat_name):
+        pass
+
+    def hp_regen_update(self):
+        pass
+
     def update(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]: # Verically.
@@ -50,6 +69,9 @@ class Player:
             (end_x - perp_x, end_y - perp_y),
             (end_x + perp_x, end_y + perp_y),
         ]
-        pygame.draw.polygon(screen, self.barrel_color, points)
 
+        pygame.draw.polygon(screen, self.barrel_color, points)
         pygame.draw.circle(screen, self.color, (int(sx), int(sy)), self.radius)
+
+    def draw_hp_bar(self, screen, sx, sy):
+        pass
