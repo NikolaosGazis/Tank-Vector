@@ -4,6 +4,7 @@ import time
 import settings
 from src.world import World
 from player import Player
+from camera import Camera
 
 ### Classes/Functions/Methods ###
 class Game:
@@ -17,6 +18,7 @@ class Game:
         self.world = World()
         screen_w, screen_h = self.screen.get_size() # Fetch screen's actual resolution.
         self.player = Player(screen_w // 2, screen_h // 2) # Center.
+        self.camera = Camera(screen_w, screen_h)
         
         self.running = True
     
@@ -28,13 +30,11 @@ class Game:
             
             # Movement Update #
             self.player.update()
-            self.world.draw(self.screen)
-            self.player.draw(self.screen)
-            pygame.display.flip()
-            
+            self.camera.update(self.player.x, self.player.y)
+        
             # Draw #
-            self.world.draw(self.screen)
-            self.player.draw(self.screen)
+            self.world.draw(self.screen, self.camera.offset)
+            self.player.draw(self.screen, self.camera.offset)
             pygame.display.flip()
 
             self.clock.tick(settings.FPS)

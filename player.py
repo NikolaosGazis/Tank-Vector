@@ -18,7 +18,7 @@ class Player:
 
         # Stats #
         self.stat_levels = {name: 0 for name in STAT_NAMES}
-        self.stat_points = STAT_STARTING_LEVEL
+        self.stat_points = 0
         self.level = 1
         self.xp = 0
 
@@ -45,6 +45,9 @@ class Player:
             self.x -= self.speed
         if keys[pygame.K_d]:
             self.x += self.speed
+        
+        self.x = max(self.radius, min(WORLD_WIDTH - self.radius, self.x))
+        self.y = max(self.radius, min(WORLD_HEIGHT - self.radius, self.y))
 
     def draw(self, screen, camera_offset=(0, 0)):
         sx = self.x - camera_offset[0]
