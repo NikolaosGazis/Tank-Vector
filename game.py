@@ -5,6 +5,7 @@ import settings
 from src.world import World
 from player import Player
 from camera import Camera
+from hud import HUD
 
 ### Classes/Functions/Methods ###
 class Game:
@@ -19,6 +20,8 @@ class Game:
         screen_w, screen_h = self.screen.get_size() # Fetch screen's actual resolution.
         self.player = Player(screen_w // 2, screen_h // 2) # Center.
         self.camera = Camera(screen_w, screen_h)
+        self.hud = HUD()
+        self.score = 0
         
         self.running = True
     
@@ -35,6 +38,7 @@ class Game:
             # Draw #
             self.world.draw(self.screen, self.camera.offset)
             self.player.draw(self.screen, self.camera.offset)
+            self.hud.draw(self.screen, self.score)
             pygame.display.flip()
 
             self.clock.tick(settings.FPS)
